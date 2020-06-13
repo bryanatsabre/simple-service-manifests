@@ -1,0 +1,24 @@
+---
+
+version: v1.0
+name: Deploy Prod
+
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+
+  - name: prepare
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: deploy
+          commands:
+            - NAME="$(ruby -r yaml -e 'h=YAML.load_file(%q!prod/manifest.yml!); puts h[%Q!name!]')"
+            - TYPE=$(ruby -r yaml -e 'h=YAML.load_file(%q!prod/manifest.yml!); puts h[%Q!nexus_repo_type!]')
+            - VERSION=$(ruby -r yaml -e 'h=YAML.load_file(%q!prod/manifest.yml!); puts h[%Q!version!]')
+            - echo "pulling artifact '$NAME' from nexus repo '$TYPE' with version '$VERSION'"

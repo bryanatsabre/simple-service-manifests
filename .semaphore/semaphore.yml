@@ -1,0 +1,30 @@
+---
+
+version: v1.0
+name: Deploy Service by manifest
+
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+
+  - name: prepare
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: acquire manifest
+          commands:
+            - /bin/true
+        - name: acquire deploy by manifest
+          commands:
+            - /bin/true
+
+promotions:
+  - name: Cert
+    pipeline_file: cert.yml
+  - name: Prod
+    pipeline_file: prod.yml

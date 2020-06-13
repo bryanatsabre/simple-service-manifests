@@ -1,0 +1,6 @@
+---
+
+apps:
+  - name: simple-docker-app
+    nexus_repo_type: docker
+    version: 1.0.1
